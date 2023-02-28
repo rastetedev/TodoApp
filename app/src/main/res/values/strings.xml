@@ -12,6 +12,11 @@
     <string name="note_title">Title</string>
     <string name="note_description">Description</string>
     <string name="note_priority">Priority</string>
+    <string name="action_search">Search</string>
+    <string name="high_priority">High Priority</string>
+    <string name="low_priority">Low Priority</string>
+    <string name="action_delete_all">Delete all</string>
+    <string name="action_sort_by">Sort By</string>
 
     <string-array name="note_priorities">
         <item>High Priority</item>
