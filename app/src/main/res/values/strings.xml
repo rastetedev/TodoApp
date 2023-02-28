@@ -2,11 +2,20 @@
     <string name="app_name">TodoApp</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="note_list_fragment_label">Note List Fragment</string>
+    <string name="add_note_fragment_label">Add Note Fragment</string>
+    <string name="update_note_fragment_label">Update Note Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="no_data">No Notes added yet!</string>
+    <string name="add_note">Add Note</string>
+    <string name="note_title">Title</string>
+    <string name="note_description">Description</string>
+    <string name="note_priority">Priority</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string-array name="note_priorities">
+        <item>High Priority</item>
+        <item>Medium Priority</item>
+        <item>Low Priority</item>
+    </string-array>
 </resources>
