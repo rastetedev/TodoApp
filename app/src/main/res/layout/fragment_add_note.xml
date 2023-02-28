@@ -4,6 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".presentation.features.add_note.AddNoteFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_noteTitle_addNoteF"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/note_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_noteTitle_addNoteF"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spn_notePriority_addNoteF"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/custom_input"
+        android:dropDownVerticalOffset="20dp"
+        android:entries="@array/note_priorities"
+        android:hint="@string/note_priority"
+        android:padding="20dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_noteTitle_addNoteF" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_noteDescription_addNoteF"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:hint="@string/note_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spn_notePriority_addNoteF">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_noteDescription_addNoteF"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|start"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:lines="3"
+            android:maxLines="10"
+            android:paddingStart="24dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="24dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
