@@ -62,10 +62,7 @@ class NoteListFragment : Fragment() {
 
                         true
                     }
-                    else -> {
-                        true
-                    }
-
+                    else -> true
                 }
             }
 

@@ -9,6 +9,7 @@
     <string name="previous">Previous</string>
     <string name="no_data">No Notes added yet!</string>
     <string name="add_note">Add Note</string>
+    <string name="save_note">Save Note</string>
     <string name="note_title">Title</string>
     <string name="note_description">Description</string>
     <string name="note_priority">Priority</string>
@@ -17,6 +18,7 @@
     <string name="low_priority">Low Priority</string>
     <string name="action_delete_all">Delete all</string>
     <string name="action_sort_by">Sort By</string>
+    <string name="delete_note">Delete Note</string>
 
     <string-array name="note_priorities">
         <item>High Priority</item>
