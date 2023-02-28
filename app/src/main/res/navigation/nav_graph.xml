@@ -12,30 +12,24 @@
         tools:layout="@layout/fragment_note_list">
 
         <action
-            android:id="@+id/action_NoteListFragment_to_AddNoteFragment"
-            app:destination="@id/AddNoteNoteFragment" />
-        <action
-            android:id="@+id/action_NoteListFragment_to_UpdateNoteFragment"
-            app:destination="@id/UpdateNoteFragment" />
+            android:id="@+id/action_NoteListFragment_to_AddUpdateNoteFragment"
+            app:destination="@id/AddUpdateNoteNoteFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
-        android:id="@+id/AddNoteNoteFragment"
-        android:name="com.rastete.todoapp.presentation.features.add_note.AddNoteFragment"
+        android:id="@+id/AddUpdateNoteNoteFragment"
+        android:name="com.rastete.todoapp.presentation.features.add_update_note.AddUpdateNoteFragment"
         android:label="@string/add_note_fragment_label"
-        tools:layout="@layout/fragment_add_note">
+        tools:layout="@layout/fragment_add_update_note">
 
         <action
-            android:id="@+id/action_AddNoteFragment_to_NoteListFragment"
-            app:destination="@id/NoteListFragment" />
+            android:id="@+id/action_AddUpdateNoteFragment_to_NoteListFragment"
+            app:destination="@id/NoteListFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
     </fragment>
-    <fragment
-        android:id="@+id/UpdateNoteFragment"
-        android:name="com.rastete.todoapp.presentation.features.update_note.UpdateNoteFragment"
-        android:label="@string/add_note_fragment_label"
-        tools:layout="@layout/fragment_update_note">
 
-        <action
-            android:id="@+id/action_UpdateNoteFragment_to_NoteListFragment"
-            app:destination="@id/NoteListFragment" />
-    </fragment>
 </navigation>
