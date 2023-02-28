@@ -1,4 +1,4 @@
-package com.rastete.todoapp.presentation.features.add_note
+package com.rastete.todoapp.presentation.features.add_update_note
 
 import android.os.Bundle
 import android.view.*
@@ -7,11 +7,12 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import com.rastete.todoapp.R
-import com.rastete.todoapp.databinding.FragmentAddNoteBinding
+import com.rastete.todoapp.databinding.FragmentAddUpdateNoteBinding
+import kotlin.random.Random
 
-class AddNoteFragment : Fragment() {
+class AddUpdateNoteFragment : Fragment() {
 
-    private var _binding: FragmentAddNoteBinding? = null
+    private var _binding: FragmentAddUpdateNoteBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,15 +20,15 @@ class AddNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentAddNoteBinding.inflate(inflater, container, false)
+        _binding = FragmentAddUpdateNoteBinding.inflate(inflater, container, false)
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(getMenu(true), viewLifecycleOwner, Lifecycle.State.RESUMED)
-        return binding.root
 
+        return binding.root
     }
 
     private fun getMenu(isNewNote: Boolean): MenuProvider {
-        return if (isNewNote) getAddMenu() else getUpdateMenu()
+        return if (Random.nextBoolean()) getAddMenu() else getUpdateMenu()
     }
 
     private fun getAddMenu(): MenuProvider {
@@ -38,7 +39,7 @@ class AddNoteFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_add -> {
+                    R.id.action_add_note -> {
                         true
                     }
                     else -> true
@@ -55,10 +56,10 @@ class AddNoteFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_save -> {
+                    R.id.action_update_note -> {
                         true
                     }
-                    R.id.action_delete -> {
+                    R.id.action_delete_note -> {
                         true
                     }
                     else -> true

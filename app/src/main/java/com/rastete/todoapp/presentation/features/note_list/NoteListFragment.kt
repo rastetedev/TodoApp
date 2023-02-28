@@ -34,7 +34,7 @@ class NoteListFragment : Fragment() {
         setupMenu(menuHost)
 
         binding.fabAddNoteNoteListF.setOnClickListener {
-            findNavController().navigate(R.id.action_NoteListFragment_to_AddNoteFragment)
+            findNavController().navigate(R.id.action_NoteListFragment_to_AddUpdateNoteFragment)
         }
     }
 
@@ -42,26 +42,27 @@ class NoteListFragment : Fragment() {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_note_list, menu)
-                actionSortHighPriorityItem = menu.findItem(R.id.action_sort_high_priority)
-                actionSortLowPriorityItem = menu.findItem(R.id.action_sort_low_priority)
+                actionSortHighPriorityItem = menu.findItem(R.id.action_sort_notes_by_high_priority)
+                actionSortLowPriorityItem = menu.findItem(R.id.action_sort_notes_by_low_priority)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_delete_all -> {
+                    R.id.action_delete_all_notes -> {
                         true
                     }
-                    R.id.action_sort_high_priority -> {
+                    R.id.action_sort_notes_by_high_priority -> {
                         menuItem.isChecked = true
                         actionSortLowPriorityItem.isChecked = false
                         true
                     }
-                    R.id.action_sort_low_priority -> {
+                    R.id.action_sort_notes_by_low_priority -> {
                         menuItem.isChecked = true
                         actionSortHighPriorityItem.isChecked = false
 
                         true
                     }
+
                     else -> true
                 }
             }

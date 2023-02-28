@@ -9,7 +9,7 @@
     <string name="previous">Previous</string>
     <string name="no_data">No Notes added yet!</string>
     <string name="add_note">Add Note</string>
-    <string name="save_note">Save Note</string>
+    <string name="update_note">Update Note</string>
     <string name="note_title">Title</string>
     <string name="note_description">Description</string>
     <string name="note_priority">Priority</string>

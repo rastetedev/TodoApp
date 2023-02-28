@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".presentation.features.add_note.AddNoteFragment">
+    tools:context=".presentation.features.add_update_note.AddUpdateNoteFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_noteTitle_addNoteF"
+        android:id="@+id/til_noteTitle_addUpdateNoteF"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_noteTitle_addNoteF"
+            android:id="@+id/et_noteTitle_addUpdateNoteF"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:importantForAutofill="no"
@@ -31,7 +31,7 @@
 
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spn_notePriority_addNoteF"
+        android:id="@+id/spn_notePriority_addUpdateNoteF"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="12dp"
@@ -43,10 +43,10 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_noteTitle_addNoteF" />
+        app:layout_constraintTop_toBottomOf="@+id/til_noteTitle_addUpdateNoteF" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_noteDescription_addNoteF"
+        android:id="@+id/til_noteDescription_addUpdateNoteF"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -55,10 +55,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spn_notePriority_addNoteF">
+        app:layout_constraintTop_toBottomOf="@+id/spn_notePriority_addUpdateNoteF">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_noteDescription_addNoteF"
+            android:id="@+id/et_noteDescription_addUpdateNoteF"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top|start"
