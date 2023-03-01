@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -22,7 +23,7 @@ import com.rastete.todoapp.presentation.utils.createDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TodoListFragment : Fragment() {
+class TodoListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentTodoListBinding? = null
     private val binding get() = _binding!!
@@ -57,6 +58,7 @@ class TodoListFragment : Fragment() {
         setupRecyclerView()
         setupEvents()
         setupListeners()
+        viewModel.getTodoList(lifecycleOwner = this)
     }
 
     private fun setupMenu(menuHost: MenuHost) {
@@ -65,6 +67,10 @@ class TodoListFragment : Fragment() {
                 menuInflater.inflate(R.menu.menu_todo_list, menu)
                 actionSortHighPriorityItem = menu.findItem(R.id.action_sort_todos_by_high_priority)
                 actionSortLowPriorityItem = menu.findItem(R.id.action_sort_todos_by_low_priority)
+                val actionSearch = menu.findItem(R.id.action_search_todos)
+                val searchView = actionSearch.actionView as? SearchView
+                searchView?.isSubmitButtonEnabled = true
+                searchView?.setOnQueryTextListener(this@TodoListFragment)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -99,7 +105,7 @@ class TodoListFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        viewModel.getTodoList().observe(viewLifecycleOwner) {
+        viewModel.todos.observe(viewLifecycleOwner) {
             if (it != null) {
                 if (it.isNotEmpty()) {
                     binding.llEmptyDataTodoListF.visibility = GONE
@@ -151,11 +157,28 @@ class TodoListFragment : Fragment() {
                     todoAdapter.notifyItemChanged(position)
                 }.show()
             }
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        query?.let {
+            viewModel.searchTodos(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        newText?.let {
+            if (it.isEmpty()) {
+                viewModel.getTodoList(lifecycleOwner = this)
+            }
+            viewModel.searchTodos(it)
+        }
+        return true
+    }
+
 }

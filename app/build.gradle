@@ -69,7 +69,4 @@ dependencies {
     //HILT
     implementation "com.google.dagger:hilt-android:2.44.2"
     kapt "com.google.dagger:hilt-compiler:2.44.2"
-
-    //RECYCLER VIEW ANIMATORS
-    implementation "jp.wasabeef:recyclerview-animators:4.0.2"
 }

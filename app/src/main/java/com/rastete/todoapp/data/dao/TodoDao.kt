@@ -7,19 +7,17 @@ import com.rastete.todoapp.data.entity.TodoEntity
 @Dao
 interface TodoDao {
 
-/*    @Query(
+    @Query("SELECT * FROM TodoEntity")
+    fun getAllTodos(): LiveData<List<TodoEntity>>
+
+    @Query(
         """
         SELECT * FROM TodoEntity 
         WHERE title LIKE '%' || :query || '%' OR
         description LIKE '%' || :query || '%' 
-        ORDER BY id ASC 
         """
     )
-    //fun getAllTodos(query: String, sortBy: Priority = Priority.HIGH): LiveData<List<TodoEntity>>
-    fun getAllTodos(query: String): LiveData<List<TodoEntity>>*/
-
-    @Query("SELECT * FROM TodoEntity")
-    fun getAllTodos(): LiveData<List<TodoEntity>>
+    suspend fun searchTodos(query: String): List<TodoEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTodo(todoEntity: TodoEntity)
