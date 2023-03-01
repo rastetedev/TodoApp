@@ -12,7 +12,8 @@ import com.rastete.todoapp.databinding.ItemTodoBinding
 class TodoListAdapter(private val clickListener: (TodoEntity) -> Unit) :
     RecyclerView.Adapter<TodoListHolder>() {
 
-    private var todoList = emptyList<TodoEntity>()
+    var todoList = emptyList<TodoEntity>()
+        private set
 
     fun setList(list: List<TodoEntity>) {
         todoList = list

@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rastete.todoapp.R
 import com.rastete.todoapp.databinding.FragmentAddUpdateTodoBinding
+import com.rastete.todoapp.presentation.features.CommonTodoViewModel
 import com.rastete.todoapp.presentation.utils.createDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +31,7 @@ class AddUpdateTodoFragment : Fragment() {
     }
 
     private val viewModel: AddUpdateTodoViewModel by viewModels()
+    private val commonViewModel: CommonTodoViewModel by viewModels()
 
     private val spinnerListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
@@ -79,7 +81,7 @@ class AddUpdateTodoFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.action_add_todo -> {
                         with(binding) {
-                            viewModel.addTodo(
+                            commonViewModel.addTodo(
                                 etTodoTitleAddUpdateTodoF.text.toString(),
                                 spnTodoPriorityAddUpdateTodoF.selectedItem.toString(),
                                 etTodoDescriptionAddUpdateTodoF.text.toString()
@@ -111,9 +113,9 @@ class AddUpdateTodoFragment : Fragment() {
                         with(binding) {
                             viewModel.updateTodo(
                                 todoId = todo?.id ?: 0,
-                                title = binding.etTodoTitleAddUpdateTodoF.text.toString(),
-                                description = binding.etTodoDescriptionAddUpdateTodoF.text.toString(),
-                                priority = binding.spnTodoPriorityAddUpdateTodoF.selectedItem.toString()
+                                title = etTodoTitleAddUpdateTodoF.text.toString(),
+                                description = etTodoDescriptionAddUpdateTodoF.text.toString(),
+                                priority = spnTodoPriorityAddUpdateTodoF.selectedItem.toString()
                             )
                         }
                         Toast.makeText(
@@ -130,7 +132,7 @@ class AddUpdateTodoFragment : Fragment() {
                             title = getString(R.string.delete_todo),
                             description = getString(R.string.delete_todo_message),
                             onPositiveButtonClicked = {
-                                viewModel.deleteTodo(todo?.id ?: 0)
+                                commonViewModel.deleteTodo(todo?.id ?: 0)
                                 Toast.makeText(
                                     context,
                                     getString(R.string.delete_todo_successful),
@@ -160,9 +162,17 @@ class AddUpdateTodoFragment : Fragment() {
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-            if (!it.isNullOrEmpty()) {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
+           showMessage(it)
+        }
+
+        commonViewModel.errorMessage.observe(viewLifecycleOwner) {
+            showMessage(it)
+        }
+    }
+
+    private fun showMessage(message: String?) {
+        if (!message.isNullOrEmpty()) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
 

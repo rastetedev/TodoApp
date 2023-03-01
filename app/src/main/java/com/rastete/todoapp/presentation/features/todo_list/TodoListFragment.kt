@@ -10,9 +10,14 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.rastete.todoapp.R
+import com.rastete.todoapp.data.entity.TodoEntity
 import com.rastete.todoapp.databinding.FragmentTodoListBinding
+import com.rastete.todoapp.presentation.features.CommonTodoViewModel
 import com.rastete.todoapp.presentation.utils.createDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,23 +31,21 @@ class TodoListFragment : Fragment() {
     private lateinit var actionSortLowPriorityItem: MenuItem
 
     private val viewModel: TodoListViewModel by viewModels()
+    private val commonTodoViewModel: CommonTodoViewModel by viewModels()
 
     private val todoAdapter: TodoListAdapter by lazy {
         TodoListAdapter { todo ->
             findNavController().navigate(
-                TodoListFragmentDirections
-                    .actionTodoListFragmentToAddUpdateTodoFragment(todo)
+                TodoListFragmentDirections.actionTodoListFragmentToAddUpdateTodoFragment(todo)
             )
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentTodoListBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -51,29 +54,9 @@ class TodoListFragment : Fragment() {
 
         val menuHost: MenuHost = requireActivity()
         setupMenu(menuHost)
-
-        binding.rvTodoListTodoListF.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = todoAdapter
-        }
-
-        binding.fabAddTodoTodoListF.setOnClickListener {
-            findNavController().navigate(
-                TodoListFragmentDirections
-                    .actionTodoListFragmentToAddUpdateTodoFragment()
-            )
-        }
-
-        viewModel.getTodoList().observe(viewLifecycleOwner) {
-            if (it != null) {
-                if (it.isNotEmpty()) {
-                    binding.llEmptyDataTodoListF.visibility = GONE
-                } else {
-                    binding.llEmptyDataTodoListF.visibility = VISIBLE
-                }
-                todoAdapter.setList(it)
-            }
-        }
+        setupRecyclerView()
+        setupEvents()
+        setupListeners()
     }
 
     private fun setupMenu(menuHost: MenuHost) {
@@ -87,15 +70,13 @@ class TodoListFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_delete_all_todos -> {
-                        createDialog(
-                            context,
+                        createDialog(context,
                             title = getString(R.string.delete_all_todos),
                             description = getString(R.string.delete_all_todo_message),
                             onPositiveButtonClicked = {
                                 viewModel.deleteAllTodos()
                             },
-                            onNegativeButtonClicked = {}
-                        )
+                            onNegativeButtonClicked = {})
                         true
                     }
                     R.id.action_sort_todos_by_high_priority -> {
@@ -115,6 +96,62 @@ class TodoListFragment : Fragment() {
             }
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    private fun setupListeners() {
+        viewModel.getTodoList().observe(viewLifecycleOwner) {
+            if (it != null) {
+                if (it.isNotEmpty()) {
+                    binding.llEmptyDataTodoListF.visibility = GONE
+                } else {
+                    binding.llEmptyDataTodoListF.visibility = VISIBLE
+                }
+                todoAdapter.setList(it)
+            }
+        }
+    }
+
+    private fun setupEvents() {
+        binding.fabAddTodoTodoListF.setOnClickListener {
+            findNavController().navigate(
+                TodoListFragmentDirections.actionTodoListFragmentToAddUpdateTodoFragment()
+            )
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvTodoListTodoListF.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = todoAdapter
+        }
+        val swipeToDelete = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val itemDeleted = todoAdapter.todoList[viewHolder.adapterPosition]
+                commonTodoViewModel.deleteTodo(itemDeleted.id)
+                todoAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                showSnackBar(viewHolder.itemView, itemDeleted, viewHolder.adapterPosition)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDelete)
+        itemTouchHelper.attachToRecyclerView(binding.rvTodoListTodoListF)
+    }
+
+    private fun showSnackBar(view: View, todoDeleted: TodoEntity, position: Int) {
+        Snackbar.make(view, getString(R.string.delete_todo_successful), Snackbar.LENGTH_LONG)
+            .apply {
+                setAction(getString(R.string.undo)) {
+                    commonTodoViewModel.addTodo(todoDeleted)
+                    todoAdapter.notifyItemChanged(position)
+                }.show()
+            }
+
     }
 
     override fun onDestroyView() {

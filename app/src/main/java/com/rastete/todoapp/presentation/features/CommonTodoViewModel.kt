@@ -1,4 +1,4 @@
-package com.rastete.todoapp.presentation.features.add_update_todo
+package com.rastete.todoapp.presentation.features
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddUpdateTodoViewModel @Inject constructor(
+class CommonTodoViewModel @Inject constructor(
     private val todoRepository: TodoRepository
 ) : ViewModel() {
 
@@ -19,7 +19,17 @@ class AddUpdateTodoViewModel @Inject constructor(
     val errorMessage
         get() = _errorMessage
 
-    fun updateTodo(todoId: Int, title: String, priority: String, description: String) {
+    fun deleteTodo(todoId: Int) {
+        viewModelScope.launch {
+            todoRepository.deleteTodo(todoId)
+        }
+    }
+
+    fun addTodo(todoEntity: TodoEntity) {
+        viewModelScope.launch { todoRepository.insertTodo(todoEntity) }
+    }
+
+    fun addTodo(title: String, priority: String, description: String) {
         viewModelScope.launch {
 
             if (title.isEmpty() or description.isEmpty()) {
@@ -27,15 +37,14 @@ class AddUpdateTodoViewModel @Inject constructor(
                 return@launch
             }
 
-            todoRepository.updateTodo(
+            todoRepository.insertTodo(
                 TodoEntity(
-                    id = todoId,
                     priority = getPriority(priority),
                     title = title,
                     description = description
                 )
             )
+
         }
     }
-
 }

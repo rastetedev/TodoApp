@@ -25,6 +25,7 @@
     <string name="update_todo_successful">Update todo successful!</string>
     <string name="delete_todo_successful">Delete todo successful!</string>
     <string name="create_todo_successful">Create todo successful!</string>
+    <string name="undo">Undo</string>
 
     <string-array name="todo_priorities">
         <item>High Priority</item>
