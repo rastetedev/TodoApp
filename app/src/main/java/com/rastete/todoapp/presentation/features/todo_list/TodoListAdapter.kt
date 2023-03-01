@@ -3,11 +3,13 @@ package com.rastete.todoapp.presentation.features.todo_list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rastete.todoapp.R
 import com.rastete.todoapp.data.Priority
 import com.rastete.todoapp.data.entity.TodoEntity
 import com.rastete.todoapp.databinding.ItemTodoBinding
+import com.rastete.todoapp.presentation.utils.TodoDiffUtil
 
 class TodoListAdapter(private val clickListener: (TodoEntity) -> Unit) :
     RecyclerView.Adapter<TodoListHolder>() {
@@ -16,8 +18,10 @@ class TodoListAdapter(private val clickListener: (TodoEntity) -> Unit) :
         private set
 
     fun setList(list: List<TodoEntity>) {
-        todoList = list
-        notifyDataSetChanged()
+        val todoDiffUtil = TodoDiffUtil(todoList, list)
+        val todoDiffResult = DiffUtil.calculateDiff(todoDiffUtil)
+        this.todoList = list
+        todoDiffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListHolder {
