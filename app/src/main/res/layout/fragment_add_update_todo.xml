@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".presentation.features.add_update_note.AddUpdateNoteFragment">
+    tools:context=".presentation.features.add_update_todo.AddUpdateTodoFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_noteTitle_addUpdateNoteF"
+        android:id="@+id/til_todoTitle_addUpdateTodoF"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/note_title"
+        android:hint="@string/todo_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_noteTitle_addUpdateNoteF"
+            android:id="@+id/et_todoTitle_addUpdateTodoF"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:importantForAutofill="no"
@@ -31,34 +31,34 @@
 
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spn_notePriority_addUpdateNoteF"
+        android:id="@+id/spn_todoPriority_addUpdateTodoF"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/custom_input"
         android:dropDownVerticalOffset="20dp"
-        android:entries="@array/note_priorities"
-        android:hint="@string/note_priority"
+        android:entries="@array/todo_priorities"
+        android:hint="@string/todo_priority"
         android:padding="20dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_noteTitle_addUpdateNoteF" />
+        app:layout_constraintTop_toBottomOf="@+id/til_todoTitle_addUpdateTodoF" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_noteDescription_addUpdateNoteF"
+        android:id="@+id/til_todoDescription_addUpdateTodoF"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
-        android:hint="@string/note_description"
+        android:hint="@string/todo_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spn_notePriority_addUpdateNoteF">
+        app:layout_constraintTop_toBottomOf="@+id/spn_todoPriority_addUpdateTodoF">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_noteDescription_addUpdateNoteF"
+            android:id="@+id/et_todoDescription_addUpdateTodoF"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top|start"

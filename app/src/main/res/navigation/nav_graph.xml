@@ -3,31 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/NoteListFragment">
+    app:startDestination="@id/TodoListFragment">
 
     <fragment
-        android:id="@+id/NoteListFragment"
-        android:name="com.rastete.todoapp.presentation.features.note_list.NoteListFragment"
-        android:label="@string/note_list_fragment_label"
-        tools:layout="@layout/fragment_note_list">
+        android:id="@+id/TodoListFragment"
+        android:name="com.rastete.todoapp.presentation.features.todo_list.TodoListFragment"
+        android:label="@string/todo_list_fragment_label"
+        tools:layout="@layout/fragment_todo_list">
 
         <action
-            android:id="@+id/action_NoteListFragment_to_AddUpdateNoteFragment"
-            app:destination="@id/AddUpdateNoteNoteFragment"
+            android:id="@+id/action_TodoListFragment_to_AddUpdateTodoFragment"
+            app:destination="@id/AddUpdateTodoFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
-        android:id="@+id/AddUpdateNoteNoteFragment"
-        android:name="com.rastete.todoapp.presentation.features.add_update_note.AddUpdateNoteFragment"
-        android:label="@string/add_note_fragment_label"
-        tools:layout="@layout/fragment_add_update_note">
+        android:id="@+id/AddUpdateTodoFragment"
+        android:name="com.rastete.todoapp.presentation.features.add_update_todo.AddUpdateTodoFragment"
+        android:label="@string/add_update_todo_fragment_label"
+        tools:layout="@layout/fragment_add_update_todo">
 
         <action
-            android:id="@+id/action_AddUpdateNoteFragment_to_NoteListFragment"
-            app:destination="@id/NoteListFragment"
+            android:id="@+id/action_AddUpdateTodoFragment_to_TodoListFragment"
+            app:destination="@id/TodoListFragment"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
         <argument

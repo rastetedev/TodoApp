@@ -1,4 +1,4 @@
-package com.rastete.todoapp.presentation.features.note_list
+package com.rastete.todoapp.presentation.features.todo_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,13 +8,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteListViewModel @Inject constructor(
+class TodoListViewModel @Inject constructor(
     private val todoRepository: TodoRepository
 ) : ViewModel() {
 
     fun getTodoList() = todoRepository.getAllTodos()
 
-    fun deleteAllNotes() {
+    fun deleteAllTodos() {
         viewModelScope.launch {
             todoRepository.deleteAllTodos()
         }

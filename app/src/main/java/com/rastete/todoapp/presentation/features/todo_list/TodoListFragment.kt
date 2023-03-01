@@ -1,4 +1,4 @@
-package com.rastete.todoapp.presentation.features.note_list
+package com.rastete.todoapp.presentation.features.todo_list
 
 import android.os.Bundle
 import android.view.*
@@ -12,26 +12,26 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rastete.todoapp.R
-import com.rastete.todoapp.databinding.FragmentNoteListBinding
+import com.rastete.todoapp.databinding.FragmentTodoListBinding
 import com.rastete.todoapp.presentation.utils.createDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NoteListFragment : Fragment() {
+class TodoListFragment : Fragment() {
 
-    private var _binding: FragmentNoteListBinding? = null
+    private var _binding: FragmentTodoListBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var actionSortHighPriorityItem: MenuItem
     private lateinit var actionSortLowPriorityItem: MenuItem
 
-    private val viewModel: NoteListViewModel by viewModels()
+    private val viewModel: TodoListViewModel by viewModels()
 
-    private val adapter: NoteListAdapter by lazy {
-        NoteListAdapter { todo ->
+    private val todoAdapter: TodoListAdapter by lazy {
+        TodoListAdapter { todo ->
             findNavController().navigate(
-                NoteListFragmentDirections
-                    .actionNoteListFragmentToAddUpdateNoteFragment(todo)
+                TodoListFragmentDirections
+                    .actionTodoListFragmentToAddUpdateTodoFragment(todo)
             )
         }
     }
@@ -41,9 +41,8 @@ class NoteListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentNoteListBinding.inflate(inflater, container, false)
-        binding.rvTodoListNoteListF.adapter = adapter
-        binding.rvTodoListNoteListF.layoutManager = LinearLayoutManager(requireContext())
+        _binding = FragmentTodoListBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -53,22 +52,26 @@ class NoteListFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         setupMenu(menuHost)
 
-        binding.fabAddNoteNoteListF.setOnClickListener {
+        binding.rvTodoListTodoListF.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = todoAdapter
+        }
+
+        binding.fabAddTodoTodoListF.setOnClickListener {
             findNavController().navigate(
-                NoteListFragmentDirections
-                    .actionNoteListFragmentToAddUpdateNoteFragment()
+                TodoListFragmentDirections
+                    .actionTodoListFragmentToAddUpdateTodoFragment()
             )
         }
 
         viewModel.getTodoList().observe(viewLifecycleOwner) {
             if (it != null) {
                 if (it.isNotEmpty()) {
-                    binding.llEmptyDataNoteListF.visibility = GONE
+                    binding.llEmptyDataTodoListF.visibility = GONE
                 } else {
-                    binding.llEmptyDataNoteListF.visibility = VISIBLE
+                    binding.llEmptyDataTodoListF.visibility = VISIBLE
                 }
-
-                adapter.setList(it)
+                todoAdapter.setList(it)
             }
         }
     }
@@ -76,31 +79,31 @@ class NoteListFragment : Fragment() {
     private fun setupMenu(menuHost: MenuHost) {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_note_list, menu)
-                actionSortHighPriorityItem = menu.findItem(R.id.action_sort_notes_by_high_priority)
-                actionSortLowPriorityItem = menu.findItem(R.id.action_sort_notes_by_low_priority)
+                menuInflater.inflate(R.menu.menu_todo_list, menu)
+                actionSortHighPriorityItem = menu.findItem(R.id.action_sort_todos_by_high_priority)
+                actionSortLowPriorityItem = menu.findItem(R.id.action_sort_todos_by_low_priority)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_delete_all_notes -> {
+                    R.id.action_delete_all_todos -> {
                         createDialog(
                             context,
-                            title = getString(R.string.delete_all_notes),
-                            description = getString(R.string.delete_all_note_message),
+                            title = getString(R.string.delete_all_todos),
+                            description = getString(R.string.delete_all_todo_message),
                             onPositiveButtonClicked = {
-                                viewModel.deleteAllNotes()
+                                viewModel.deleteAllTodos()
                             },
                             onNegativeButtonClicked = {}
                         )
                         true
                     }
-                    R.id.action_sort_notes_by_high_priority -> {
+                    R.id.action_sort_todos_by_high_priority -> {
                         menuItem.isChecked = true
                         actionSortLowPriorityItem.isChecked = false
                         true
                     }
-                    R.id.action_sort_notes_by_low_priority -> {
+                    R.id.action_sort_todos_by_low_priority -> {
                         menuItem.isChecked = true
                         actionSortHighPriorityItem.isChecked = false
 

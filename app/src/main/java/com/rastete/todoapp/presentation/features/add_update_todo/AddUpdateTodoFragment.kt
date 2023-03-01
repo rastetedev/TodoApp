@@ -1,4 +1,4 @@
-package com.rastete.todoapp.presentation.features.add_update_note
+package com.rastete.todoapp.presentation.features.add_update_todo
 
 import android.os.Bundle
 import android.view.*
@@ -14,22 +14,22 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rastete.todoapp.R
-import com.rastete.todoapp.databinding.FragmentAddUpdateNoteBinding
+import com.rastete.todoapp.databinding.FragmentAddUpdateTodoBinding
 import com.rastete.todoapp.presentation.utils.createDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddUpdateNoteFragment : Fragment() {
+class AddUpdateTodoFragment : Fragment() {
 
-    private var _binding: FragmentAddUpdateNoteBinding? = null
+    private var _binding: FragmentAddUpdateTodoBinding? = null
     private val binding get() = _binding!!
 
-    private val args: AddUpdateNoteFragmentArgs by navArgs()
+    private val args: AddUpdateTodoFragmentArgs by navArgs()
     private val todo by lazy {
         args.todo
     }
 
-    private val viewModel: AddUpdateNoteViewModel by viewModels()
+    private val viewModel: AddUpdateTodoViewModel by viewModels()
 
     private val spinnerListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
@@ -58,34 +58,36 @@ class AddUpdateNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentAddUpdateNoteBinding.inflate(inflater, container, false)
+        _binding = FragmentAddUpdateTodoBinding.inflate(inflater, container, false)
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(getMenu(todo != null), viewLifecycleOwner, Lifecycle.State.RESUMED)
-        binding.spnNotePriorityAddUpdateNoteF.onItemSelectedListener = spinnerListener
+        binding.spnTodoPriorityAddUpdateTodoF.onItemSelectedListener = spinnerListener
         return binding.root
     }
 
-    private fun getMenu(isNotNewNote: Boolean): MenuProvider {
-        return if (isNotNewNote) getUpdateMenu() else getAddMenu()
+    private fun getMenu(isNotNewTodo: Boolean): MenuProvider {
+        return if (isNotNewTodo) getUpdateMenu() else getAddMenu()
     }
 
     private fun getAddMenu(): MenuProvider {
         return object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_add_note, menu)
+                menuInflater.inflate(R.menu.menu_add_todo, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_add_note -> {
-                        viewModel.addNote(
-                            binding.etNoteTitleAddUpdateNoteF.text.toString(),
-                            binding.spnNotePriorityAddUpdateNoteF.selectedItem.toString(),
-                            binding.etNoteDescriptionAddUpdateNoteF.text.toString()
-                        )
+                    R.id.action_add_todo -> {
+                        with(binding) {
+                            viewModel.addTodo(
+                                etTodoTitleAddUpdateTodoF.text.toString(),
+                                spnTodoPriorityAddUpdateTodoF.selectedItem.toString(),
+                                etTodoDescriptionAddUpdateTodoF.text.toString()
+                            )
+                        }
                         Toast.makeText(
                             context,
-                            getString(R.string.create_note_successful),
+                            getString(R.string.create_todo_successful),
                             Toast.LENGTH_SHORT
                         ).show()
                         findNavController().popBackStack()
@@ -100,36 +102,38 @@ class AddUpdateNoteFragment : Fragment() {
     private fun getUpdateMenu(): MenuProvider {
         return object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_update_note, menu)
+                menuInflater.inflate(R.menu.menu_update_todo, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_update_note -> {
-                        viewModel.updateNote(
-                            todoId = todo?.id ?: 0,
-                            title = binding.etNoteTitleAddUpdateNoteF.text.toString(),
-                            description = binding.etNoteDescriptionAddUpdateNoteF.text.toString(),
-                            priority = binding.spnNotePriorityAddUpdateNoteF.selectedItem.toString()
-                        )
+                    R.id.action_update_todo -> {
+                        with(binding) {
+                            viewModel.updateTodo(
+                                todoId = todo?.id ?: 0,
+                                title = binding.etTodoTitleAddUpdateTodoF.text.toString(),
+                                description = binding.etTodoDescriptionAddUpdateTodoF.text.toString(),
+                                priority = binding.spnTodoPriorityAddUpdateTodoF.selectedItem.toString()
+                            )
+                        }
                         Toast.makeText(
                             context,
-                            getString(R.string.update_note_successful),
+                            getString(R.string.update_todo_successful),
                             Toast.LENGTH_SHORT
                         ).show()
                         findNavController().popBackStack()
                         true
                     }
-                    R.id.action_delete_note -> {
+                    R.id.action_delete_todo -> {
                         createDialog(
                             context,
-                            title = getString(R.string.delete_note),
-                            description = getString(R.string.delete_note_message),
+                            title = getString(R.string.delete_todo),
+                            description = getString(R.string.delete_todo_message),
                             onPositiveButtonClicked = {
-                                viewModel.deleteNote(todo?.id ?: 0)
+                                viewModel.deleteTodo(todo?.id ?: 0)
                                 Toast.makeText(
                                     context,
-                                    getString(R.string.delete_note_successful),
+                                    getString(R.string.delete_todo_successful),
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 findNavController().popBackStack()
@@ -149,10 +153,10 @@ class AddUpdateNoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         todo?.let {
-            activity?.title = getString(R.string.update_note)
-            binding.etNoteDescriptionAddUpdateNoteF.setText(it.description)
-            binding.etNoteTitleAddUpdateNoteF.setText(it.title)
-            binding.spnNotePriorityAddUpdateNoteF.setSelection(it.priority.position)
+            activity?.title = getString(R.string.update_todo)
+            binding.etTodoTitleAddUpdateTodoF.setText(it.title)
+            binding.spnTodoPriorityAddUpdateTodoF.setSelection(it.priority.position)
+            binding.etTodoDescriptionAddUpdateTodoF.setText(it.description)
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) {

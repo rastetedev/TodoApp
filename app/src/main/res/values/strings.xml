@@ -2,31 +2,31 @@
     <string name="app_name">TodoApp</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="note_list_fragment_label">Note List Fragment</string>
-    <string name="add_note_fragment_label">Add Note Fragment</string>
-    <string name="update_note_fragment_label">Update Note Fragment</string>
+    <string name="todo_list_fragment_label">Todo List</string>
+    <string name="add_update_todo_fragment_label">Add Todo</string>
+    <string name="update_todo_fragment_label">Update Todo</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="no_data">No Notes added yet!</string>
-    <string name="add_note">Add Note</string>
-    <string name="update_note">Update Note</string>
-    <string name="note_title">Title</string>
-    <string name="note_description">Description</string>
-    <string name="note_priority">Priority</string>
+    <string name="no_data">No Todos added yet!</string>
+    <string name="add_todo">Add Todo</string>
+    <string name="update_todo">Update Todo</string>
+    <string name="todo_title">Title</string>
+    <string name="todo_description">Description</string>
+    <string name="todo_priority">Priority</string>
     <string name="action_search">Search</string>
     <string name="high_priority">High Priority</string>
     <string name="low_priority">Low Priority</string>
     <string name="action_delete_all">Delete all</string>
     <string name="action_sort_by">Sort By</string>
-    <string name="delete_note">Delete Note</string>
-    <string name="delete_all_notes">Delete All Notes</string>
-    <string name="delete_all_note_message">Are you sure to delete all notes?</string>
-    <string name="delete_note_message">Are you sure to delete this note?</string>
-    <string name="update_note_successful">Update note successful!</string>
-    <string name="delete_note_successful">Delete note successful!</string>
-    <string name="create_note_successful">Create note successful!</string>
+    <string name="delete_todo">Delete Todo</string>
+    <string name="delete_all_todos">Delete All Todos</string>
+    <string name="delete_all_todo_message">Are you sure to delete all todos?</string>
+    <string name="delete_todo_message">Are you sure to delete this todo?</string>
+    <string name="update_todo_successful">Update todo successful!</string>
+    <string name="delete_todo_successful">Delete todo successful!</string>
+    <string name="create_todo_successful">Create todo successful!</string>
 
-    <string-array name="note_priorities">
+    <string-array name="todo_priorities">
         <item>High Priority</item>
         <item>Medium Priority</item>
         <item>Low Priority</item>

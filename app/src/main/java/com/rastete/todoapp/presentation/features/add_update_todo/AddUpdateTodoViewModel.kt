@@ -1,4 +1,4 @@
-package com.rastete.todoapp.presentation.features.add_update_note
+package com.rastete.todoapp.presentation.features.add_update_todo
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddUpdateNoteViewModel @Inject constructor(
+class AddUpdateTodoViewModel @Inject constructor(
     private val todoRepository: TodoRepository
 ) : ViewModel() {
 
@@ -19,7 +19,7 @@ class AddUpdateNoteViewModel @Inject constructor(
     val errorMessage
         get() = _errorMessage
 
-    fun addNote(title: String, priority: String, description: String) {
+    fun addTodo(title: String, priority: String, description: String) {
         viewModelScope.launch {
 
             if (title.isEmpty() or description.isEmpty()) {
@@ -38,7 +38,7 @@ class AddUpdateNoteViewModel @Inject constructor(
         }
     }
 
-    fun updateNote(todoId: Int, title: String, priority: String, description: String) {
+    fun updateTodo(todoId: Int, title: String, priority: String, description: String) {
         viewModelScope.launch {
 
             if (title.isEmpty() or description.isEmpty()) {
@@ -57,7 +57,7 @@ class AddUpdateNoteViewModel @Inject constructor(
         }
     }
 
-    fun deleteNote(todoId: Int) {
+    fun deleteTodo(todoId: Int) {
         viewModelScope.launch {
             todoRepository.deleteTodo(todoId)
         }

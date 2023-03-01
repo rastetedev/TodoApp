@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.rastete.todoapp.MainActivity">
     <item
-        android:id="@+id/action_search_notes"
+        android:id="@+id/action_search_todos"
         android:icon="@drawable/ic_search"
         android:title="@string/action_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
@@ -12,23 +12,23 @@
 
     <group >
         <item
-            android:id="@+id/action_sort_notes_by_priority"
+            android:id="@+id/action_sort_todos_by_priority"
             android:title="@string/action_sort_by">
             <menu >
                 <item
                     android:checkable="true"
-                    android:id="@+id/action_sort_notes_by_high_priority"
+                    android:id="@+id/action_sort_todos_by_high_priority"
                     android:title="@string/high_priority" />
                 <item
                     android:checkable="true"
-                    android:id="@+id/action_sort_notes_by_low_priority"
+                    android:id="@+id/action_sort_todos_by_low_priority"
                     android:title="@string/low_priority" />
             </menu>
         </item>
     </group>
 
     <item
-        android:id="@+id/action_delete_all_notes"
+        android:id="@+id/action_delete_all_todos"
         android:title="@string/action_delete_all"
         app:showAsAction="never" />
 </menu>

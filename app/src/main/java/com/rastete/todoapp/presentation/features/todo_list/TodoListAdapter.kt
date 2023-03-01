@@ -1,4 +1,4 @@
-package com.rastete.todoapp.presentation.features.note_list
+package com.rastete.todoapp.presentation.features.todo_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,30 +9,30 @@ import com.rastete.todoapp.data.Priority
 import com.rastete.todoapp.data.entity.TodoEntity
 import com.rastete.todoapp.databinding.ItemTodoBinding
 
-class NoteListAdapter(private val clickListener: (TodoEntity) -> Unit) :
-    RecyclerView.Adapter<NoteListHolder>() {
+class TodoListAdapter(private val clickListener: (TodoEntity) -> Unit) :
+    RecyclerView.Adapter<TodoListHolder>() {
 
-    private var noteList = emptyList<TodoEntity>()
+    private var todoList = emptyList<TodoEntity>()
 
     fun setList(list: List<TodoEntity>) {
-        noteList = list
+        todoList = list
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListHolder {
         val itemBinding =
             ItemTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NoteListHolder(itemBinding)
+        return TodoListHolder(itemBinding)
     }
 
-    override fun getItemCount(): Int = noteList.size
+    override fun getItemCount(): Int = todoList.size
 
-    override fun onBindViewHolder(holder: NoteListHolder, position: Int) {
-        holder.bind(noteList[position], clickListener)
+    override fun onBindViewHolder(holder: TodoListHolder, position: Int) {
+        holder.bind(todoList[position], clickListener)
     }
 }
 
-class NoteListHolder(private val binding: ItemTodoBinding) :
+class TodoListHolder(private val binding: ItemTodoBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(todo: TodoEntity, clickListener: (TodoEntity) -> Unit) {
@@ -40,9 +40,9 @@ class NoteListHolder(private val binding: ItemTodoBinding) :
             root.setOnClickListener {
                 clickListener(todo)
             }
-            tvTitleTodoI.text = todo.title
-            tvDescriptionTodoI.text = todo.description
-            cvPriorityIndicatorTodoI.setCardBackgroundColor(
+            tvTodoTitleTodoI.text = todo.title
+            tvTodoDescriptionTodoI.text = todo.description
+            cvPriorityTodoTodoI.setCardBackgroundColor(
                 ContextCompat.getColor(root.context, mapColor(todo))
             )
         }
