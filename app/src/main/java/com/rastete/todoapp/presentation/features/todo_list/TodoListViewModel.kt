@@ -40,26 +40,26 @@ class TodoListViewModel @Inject constructor(
         }
     }
 
+    private fun sortByHighPriority() {
+        viewModelScope.launch {
+            _todos.postValue(todoRepository.sortByHighPriority())
+        }
+    }
+
+    private fun sortByLowPriority() {
+        viewModelScope.launch {
+            _todos.postValue(todoRepository.sortByLowPriority())
+        }
+    }
+
     fun deleteAllTodos() {
         viewModelScope.launch {
             todoRepository.deleteAllTodos()
         }
     }
 
-    fun setSortByCriteria(priority: Priority?) {
-        viewModelScope.launch {
-            noteList = when (priority) {
-                Priority.HIGH -> {
-                    noteList.sortedBy { it.priority.order }
-                }
-                Priority.LOW -> {
-                    noteList.sortedByDescending { it.priority.order }
-                }
-                else -> {
-                    noteList.sortedBy { it.id }
-                }
-            }
-            _todos.postValue(noteList)
-        }
+    fun setSortByCriteria(priority: Priority) {
+        if (priority == Priority.HIGH) sortByHighPriority()
+        else if (priority == Priority.LOW) sortByLowPriority()
     }
 }

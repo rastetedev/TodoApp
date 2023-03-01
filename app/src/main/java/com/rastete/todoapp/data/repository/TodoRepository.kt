@@ -17,4 +17,8 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDao) {
     suspend fun deleteTodo(todoId: Int) = todoDao.deleteTodo(todoId)
 
     suspend fun deleteAllTodos() = todoDao.deleteAllTodos()
+
+    suspend fun sortByHighPriority() = todoDao.sortByHighPriority()
+
+    suspend fun sortByLowPriority() = todoDao.sortByLowPriority()
 }

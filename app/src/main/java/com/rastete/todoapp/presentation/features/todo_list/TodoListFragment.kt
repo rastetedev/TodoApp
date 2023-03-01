@@ -105,7 +105,7 @@ class TodoListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun setSortPriority(menuItem: MenuItem, priority: Priority) {
         if (menuItem.isChecked) {
             menuItem.isChecked = false
-            viewModel.setSortByCriteria(null)
+            viewModel.getTodoList(lifecycleOwner = this)
         } else {
             menuItem.isChecked = true
             viewModel.setSortByCriteria(priority)
