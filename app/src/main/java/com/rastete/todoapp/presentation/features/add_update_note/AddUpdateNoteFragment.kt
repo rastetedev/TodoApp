@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
@@ -107,6 +108,12 @@ class AddUpdateNoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onDestroyView() {

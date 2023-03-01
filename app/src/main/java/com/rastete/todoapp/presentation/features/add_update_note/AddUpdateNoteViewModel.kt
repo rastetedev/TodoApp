@@ -1,5 +1,6 @@
 package com.rastete.todoapp.presentation.features.add_update_note
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rastete.todoapp.data.Priority
@@ -14,9 +15,18 @@ class AddUpdateNoteViewModel @Inject constructor(
     private val todoRepository: TodoRepository
 ) : ViewModel() {
 
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage
+        get() = _errorMessage
 
     fun addNote(title: String, priority: String, description: String) {
         viewModelScope.launch {
+
+            if (title.isEmpty() or description.isEmpty()) {
+                _errorMessage.value = "Fill out title and description"
+                return@launch
+            }
+
             todoRepository.insertTodo(
                 TodoEntity(
                     priority = getPriority(priority),
@@ -24,6 +34,7 @@ class AddUpdateNoteViewModel @Inject constructor(
                     description = description
                 )
             )
+
         }
     }
 

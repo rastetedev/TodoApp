@@ -22,7 +22,7 @@ class NoteListViewModel @Inject constructor(
         get() = _todoList
 
 
-     fun getTodoList() {
+    fun getTodoList() {
         viewModelScope.launch(Dispatchers.IO) {
             _todoList.postValue(todoRepository.getAllTodos())
         }
