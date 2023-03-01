@@ -11,9 +11,11 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rastete.todoapp.R
 import com.rastete.todoapp.databinding.FragmentAddUpdateNoteBinding
+import com.rastete.todoapp.presentation.utils.createDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -81,6 +83,12 @@ class AddUpdateNoteFragment : Fragment() {
                             binding.spnNotePriorityAddUpdateNoteF.selectedItem.toString(),
                             binding.etNoteDescriptionAddUpdateNoteF.text.toString()
                         )
+                        Toast.makeText(
+                            context,
+                            getString(R.string.create_note_successful),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().popBackStack()
                         true
                     }
                     else -> true
@@ -104,10 +112,30 @@ class AddUpdateNoteFragment : Fragment() {
                             description = binding.etNoteDescriptionAddUpdateNoteF.text.toString(),
                             priority = binding.spnNotePriorityAddUpdateNoteF.selectedItem.toString()
                         )
+                        Toast.makeText(
+                            context,
+                            getString(R.string.update_note_successful),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().popBackStack()
                         true
                     }
                     R.id.action_delete_note -> {
-                        viewModel.deleteNote(todo?.id ?: 0)
+                        createDialog(
+                            context,
+                            title = getString(R.string.delete_note),
+                            description = getString(R.string.delete_note_message),
+                            onPositiveButtonClicked = {
+                                viewModel.deleteNote(todo?.id ?: 0)
+                                Toast.makeText(
+                                    context,
+                                    getString(R.string.delete_note_successful),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                findNavController().popBackStack()
+                            },
+                            onNegativeButtonClicked = {}
+                        )
                         true
                     }
                     else -> true

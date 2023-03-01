@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rastete.todoapp.R
 import com.rastete.todoapp.databinding.FragmentNoteListBinding
+import com.rastete.todoapp.presentation.utils.createDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -83,7 +84,15 @@ class NoteListFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_delete_all_notes -> {
-                        viewModel.deleteAllNotes()
+                        createDialog(
+                            context,
+                            title = getString(R.string.delete_all_notes),
+                            description = getString(R.string.delete_all_note_message),
+                            onPositiveButtonClicked = {
+                                viewModel.deleteAllNotes()
+                            },
+                            onNegativeButtonClicked = {}
+                        )
                         true
                     }
                     R.id.action_sort_notes_by_high_priority -> {

@@ -19,6 +19,12 @@
     <string name="action_delete_all">Delete all</string>
     <string name="action_sort_by">Sort By</string>
     <string name="delete_note">Delete Note</string>
+    <string name="delete_all_notes">Delete All Notes</string>
+    <string name="delete_all_note_message">Are you sure to delete all notes?</string>
+    <string name="delete_note_message">Are you sure to delete this note?</string>
+    <string name="update_note_successful">Update note successful!</string>
+    <string name="delete_note_successful">Delete note successful!</string>
+    <string name="create_note_successful">Create note successful!</string>
 
     <string-array name="note_priorities">
         <item>High Priority</item>
