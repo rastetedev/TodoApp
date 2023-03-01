@@ -59,7 +59,7 @@ class NoteListFragment : Fragment() {
             )
         }
 
-        viewModel.todoList.observe(viewLifecycleOwner) {
+        viewModel.getTodoList().observe(viewLifecycleOwner) {
             if (it != null) {
                 if (it.isNotEmpty()) {
                     binding.llEmptyDataNoteListF.visibility = GONE
@@ -70,7 +70,6 @@ class NoteListFragment : Fragment() {
                 adapter.setList(it)
             }
         }
-        viewModel.getTodoList()
     }
 
     private fun setupMenu(menuHost: MenuHost) {
@@ -84,6 +83,7 @@ class NoteListFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_delete_all_notes -> {
+                        viewModel.deleteAllNotes()
                         true
                     }
                     R.id.action_sort_notes_by_high_priority -> {

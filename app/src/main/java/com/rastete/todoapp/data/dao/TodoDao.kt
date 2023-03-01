@@ -2,7 +2,6 @@ package com.rastete.todoapp.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.rastete.todoapp.data.Priority
 import com.rastete.todoapp.data.entity.TodoEntity
 
 @Dao
@@ -20,10 +19,7 @@ interface TodoDao {
     fun getAllTodos(query: String): LiveData<List<TodoEntity>>*/
 
     @Query("SELECT * FROM TodoEntity")
-    suspend fun getAllTodos() : List<TodoEntity>
-
-    @Query("SELECT * FROM TodoEntity WHERE id = :todoId")
-    fun getTodo(todoId: Int): TodoEntity
+    fun getAllTodos(): LiveData<List<TodoEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTodo(todoEntity: TodoEntity)
@@ -31,9 +27,9 @@ interface TodoDao {
     @Update
     suspend fun updateTodo(todoEntity: TodoEntity)
 
-    @Delete
-    suspend fun deleteTodo(todoEntity: TodoEntity)
+    @Query("DELETE FROM TodoEntity WHERE id = :todoId")
+    suspend fun deleteTodo(todoId: Int)
 
     @Query("DELETE FROM TodoEntity")
-    fun deleteAllTodos()
+    suspend fun deleteAllTodos()
 }

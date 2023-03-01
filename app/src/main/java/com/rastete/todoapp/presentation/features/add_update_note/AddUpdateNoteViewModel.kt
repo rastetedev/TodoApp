@@ -38,6 +38,31 @@ class AddUpdateNoteViewModel @Inject constructor(
         }
     }
 
+    fun updateNote(todoId: Int, title: String, priority: String, description: String) {
+        viewModelScope.launch {
+
+            if (title.isEmpty() or description.isEmpty()) {
+                _errorMessage.value = "Fill out title and description"
+                return@launch
+            }
+
+            todoRepository.updateTodo(
+                TodoEntity(
+                    id = todoId,
+                    priority = getPriority(priority),
+                    title = title,
+                    description = description
+                )
+            )
+        }
+    }
+
+    fun deleteNote(todoId: Int) {
+        viewModelScope.launch {
+            todoRepository.deleteTodo(todoId)
+        }
+    }
+
     private fun getPriority(priority: String): Priority =
         when (priority) {
             "High Priority" -> Priority.HIGH

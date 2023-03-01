@@ -98,9 +98,16 @@ class AddUpdateNoteFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_update_note -> {
+                        viewModel.updateNote(
+                            todoId = todo?.id ?: 0,
+                            title = binding.etNoteTitleAddUpdateNoteF.text.toString(),
+                            description = binding.etNoteDescriptionAddUpdateNoteF.text.toString(),
+                            priority = binding.spnNotePriorityAddUpdateNoteF.selectedItem.toString()
+                        )
                         true
                     }
                     R.id.action_delete_note -> {
+                        viewModel.deleteNote(todo?.id ?: 0)
                         true
                     }
                     else -> true
