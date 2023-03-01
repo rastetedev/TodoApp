@@ -72,14 +72,4 @@ dependencies {
 
     //RECYCLER VIEW ANIMATORS
     implementation "jp.wasabeef:recyclerview-animators:4.0.2"
-
-/*    //LIFECYCLE COMPONENTS
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycler:lifecycle-common-java8:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'*/
-
-/*    //KOTLIN COMPONENTS
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.21'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'*/
 }

@@ -23,7 +23,7 @@ class AddUpdateNoteFragment : Fragment() {
 
     private val viewModel: AddUpdateNoteViewModel by viewModels()
 
-    val spinnerListener: AdapterView.OnItemSelectedListener by lazy {
+    private val spinnerListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(
@@ -54,6 +54,7 @@ class AddUpdateNoteFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(getMenu(true), viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding.spnNotePriorityAddUpdateNoteF.onItemSelectedListener = spinnerListener
+
         return binding.root
     }
 
@@ -70,7 +71,11 @@ class AddUpdateNoteFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_add_note -> {
-                        viewModel.addNote("Hola", "High Priority", "Mundo")
+                        viewModel.addNote(
+                            binding.etNoteTitleAddUpdateNoteF.text.toString(),
+                            binding.spnNotePriorityAddUpdateNoteF.selectedItem.toString(),
+                            binding.etNoteDescriptionAddUpdateNoteF.text.toString()
+                        )
                         true
                     }
                     else -> true

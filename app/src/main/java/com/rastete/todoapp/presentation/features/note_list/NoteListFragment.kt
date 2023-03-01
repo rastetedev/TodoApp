@@ -2,11 +2,15 @@ package com.rastete.todoapp.presentation.features.note_list
 
 import android.os.Bundle
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rastete.todoapp.R
 import com.rastete.todoapp.databinding.FragmentNoteListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,12 +24,20 @@ class NoteListFragment : Fragment() {
     private lateinit var actionSortHighPriorityItem: MenuItem
     private lateinit var actionSortLowPriorityItem: MenuItem
 
+    private val viewModel: NoteListViewModel by viewModels()
+
+    private val adapter: NoteListAdapter by lazy {
+        NoteListAdapter()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentNoteListBinding.inflate(inflater, container, false)
+        binding.rvTodoListNoteListF.adapter = adapter
+        binding.rvTodoListNoteListF.layoutManager = LinearLayoutManager(requireContext())
         return binding.root
     }
 
@@ -38,6 +50,19 @@ class NoteListFragment : Fragment() {
         binding.fabAddNoteNoteListF.setOnClickListener {
             findNavController().navigate(R.id.action_NoteListFragment_to_AddUpdateNoteFragment)
         }
+
+        viewModel.todoList.observe(viewLifecycleOwner) {
+            if (it != null) {
+                if (it.isNotEmpty()) {
+                    binding.llEmptyDataNoteListF.visibility = GONE
+                } else {
+                    binding.llEmptyDataNoteListF.visibility = VISIBLE
+                }
+
+                adapter.setList(it)
+            }
+        }
+        viewModel.getTodoList()
     }
 
     private fun setupMenu(menuHost: MenuHost) {

@@ -8,7 +8,7 @@ import com.rastete.todoapp.data.entity.TodoEntity
 @Dao
 interface TodoDao {
 
-    @Query(
+/*    @Query(
         """
         SELECT * FROM TodoEntity 
         WHERE title LIKE '%' || :query || '%' OR
@@ -17,7 +17,10 @@ interface TodoDao {
         """
     )
     //fun getAllTodos(query: String, sortBy: Priority = Priority.HIGH): LiveData<List<TodoEntity>>
-    fun getAllTodos(query: String): LiveData<List<TodoEntity>>
+    fun getAllTodos(query: String): LiveData<List<TodoEntity>>*/
+
+    @Query("SELECT * FROM TodoEntity")
+    suspend fun getAllTodos() : List<TodoEntity>
 
     @Query("SELECT * FROM TodoEntity WHERE id = :todoId")
     fun getTodo(todoId: Int): TodoEntity
