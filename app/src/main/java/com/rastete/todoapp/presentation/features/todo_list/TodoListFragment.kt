@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.rastete.todoapp.R
+import com.rastete.todoapp.data.Priority
 import com.rastete.todoapp.data.entity.TodoEntity
 import com.rastete.todoapp.databinding.FragmentTodoListBinding
 import com.rastete.todoapp.presentation.features.CommonTodoViewModel
@@ -86,14 +87,11 @@ class TodoListFragment : Fragment(), SearchView.OnQueryTextListener {
                         true
                     }
                     R.id.action_sort_todos_by_high_priority -> {
-                        menuItem.isChecked = true
-                        actionSortLowPriorityItem.isChecked = false
+                        setSortPriority(menuItem, Priority.HIGH)
                         true
                     }
                     R.id.action_sort_todos_by_low_priority -> {
-                        menuItem.isChecked = true
-                        actionSortHighPriorityItem.isChecked = false
-
+                        setSortPriority(menuItem, Priority.LOW)
                         true
                     }
 
@@ -103,6 +101,19 @@ class TodoListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
+
+    private fun setSortPriority(menuItem: MenuItem, priority: Priority) {
+        if (menuItem.isChecked) {
+            menuItem.isChecked = false
+            viewModel.setSortByCriteria(null)
+        } else {
+            menuItem.isChecked = true
+            viewModel.setSortByCriteria(priority)
+        }
+        if(priority == Priority.HIGH) actionSortLowPriorityItem.isChecked = false
+        if(priority == Priority.LOW) actionSortHighPriorityItem.isChecked = false
+    }
+
 
     private fun setupListeners() {
         viewModel.todos.observe(viewLifecycleOwner) {
