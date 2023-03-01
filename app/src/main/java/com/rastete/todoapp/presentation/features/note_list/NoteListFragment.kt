@@ -27,7 +27,12 @@ class NoteListFragment : Fragment() {
     private val viewModel: NoteListViewModel by viewModels()
 
     private val adapter: NoteListAdapter by lazy {
-        NoteListAdapter()
+        NoteListAdapter { todo ->
+            findNavController().navigate(
+                NoteListFragmentDirections
+                    .actionNoteListFragmentToAddUpdateNoteFragment(todo)
+            )
+        }
     }
 
     override fun onCreateView(
@@ -48,7 +53,10 @@ class NoteListFragment : Fragment() {
         setupMenu(menuHost)
 
         binding.fabAddNoteNoteListF.setOnClickListener {
-            findNavController().navigate(R.id.action_NoteListFragment_to_AddUpdateNoteFragment)
+            findNavController().navigate(
+                NoteListFragmentDirections
+                    .actionNoteListFragmentToAddUpdateNoteFragment()
+            )
         }
 
         viewModel.todoList.observe(viewLifecycleOwner) {

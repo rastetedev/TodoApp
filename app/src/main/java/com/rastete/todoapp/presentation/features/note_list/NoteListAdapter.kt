@@ -9,7 +9,8 @@ import com.rastete.todoapp.data.Priority
 import com.rastete.todoapp.data.entity.TodoEntity
 import com.rastete.todoapp.databinding.ItemTodoBinding
 
-class NoteListAdapter : RecyclerView.Adapter<NoteListHolder>() {
+class NoteListAdapter(private val clickListener: (TodoEntity) -> Unit) :
+    RecyclerView.Adapter<NoteListHolder>() {
 
     private var noteList = emptyList<TodoEntity>()
 
@@ -27,15 +28,18 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListHolder>() {
     override fun getItemCount(): Int = noteList.size
 
     override fun onBindViewHolder(holder: NoteListHolder, position: Int) {
-        holder.bind(noteList[position])
+        holder.bind(noteList[position], clickListener)
     }
 }
 
 class NoteListHolder(private val binding: ItemTodoBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(todo: TodoEntity) {
+    fun bind(todo: TodoEntity, clickListener: (TodoEntity) -> Unit) {
         with(binding) {
+            root.setOnClickListener {
+                clickListener(todo)
+            }
             tvTitleTodoI.text = todo.title
             tvDescriptionTodoI.text = todo.description
             cvPriorityIndicatorTodoI.setCardBackgroundColor(

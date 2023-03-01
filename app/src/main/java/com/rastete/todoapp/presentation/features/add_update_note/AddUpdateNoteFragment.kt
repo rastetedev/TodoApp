@@ -11,16 +11,21 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.navArgs
 import com.rastete.todoapp.R
 import com.rastete.todoapp.databinding.FragmentAddUpdateNoteBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.random.Random
 
 @AndroidEntryPoint
 class AddUpdateNoteFragment : Fragment() {
 
     private var _binding: FragmentAddUpdateNoteBinding? = null
     private val binding get() = _binding!!
+
+    private val args: AddUpdateNoteFragmentArgs by navArgs()
+    private val todo by lazy {
+        args.todo
+    }
 
     private val viewModel: AddUpdateNoteViewModel by viewModels()
 
@@ -53,14 +58,13 @@ class AddUpdateNoteFragment : Fragment() {
 
         _binding = FragmentAddUpdateNoteBinding.inflate(inflater, container, false)
         val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(getMenu(true), viewLifecycleOwner, Lifecycle.State.RESUMED)
+        menuHost.addMenuProvider(getMenu(todo != null), viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding.spnNotePriorityAddUpdateNoteF.onItemSelectedListener = spinnerListener
-
         return binding.root
     }
 
-    private fun getMenu(isNewNote: Boolean): MenuProvider {
-        return if (Random.nextBoolean()) getAddMenu() else getUpdateMenu()
+    private fun getMenu(isNotNewNote: Boolean): MenuProvider {
+        return if (isNotNewNote) getUpdateMenu() else getAddMenu()
     }
 
     private fun getAddMenu(): MenuProvider {
@@ -108,6 +112,13 @@ class AddUpdateNoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        todo?.let {
+            activity?.title = getString(R.string.update_note)
+            binding.etNoteDescriptionAddUpdateNoteF.setText(it.description)
+            binding.etNoteTitleAddUpdateNoteF.setText(it.title)
+            binding.spnNotePriorityAddUpdateNoteF.setSelection(it.priority.position)
+        }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
