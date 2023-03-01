@@ -9,7 +9,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.rastete.todoapp.R
 import com.rastete.todoapp.databinding.FragmentNoteListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoteListFragment : Fragment() {
 
     private var _binding: FragmentNoteListBinding? = null

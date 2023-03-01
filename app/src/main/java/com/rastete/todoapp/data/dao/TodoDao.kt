@@ -16,7 +16,8 @@ interface TodoDao {
         ORDER BY id ASC 
         """
     )
-    fun getAllTodos(query: String, sortBy: Priority = Priority.HIGH): LiveData<List<TodoEntity>>
+    //fun getAllTodos(query: String, sortBy: Priority = Priority.HIGH): LiveData<List<TodoEntity>>
+    fun getAllTodos(query: String): LiveData<List<TodoEntity>>
 
     @Query("SELECT * FROM TodoEntity WHERE id = :todoId")
     fun getTodo(todoId: Int): TodoEntity
