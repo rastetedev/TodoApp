@@ -6,9 +6,7 @@ import javax.inject.Inject
 
 class TodoRepository @Inject constructor(private val todoDao: TodoDao) {
 
-    fun getAllTodos() = todoDao.getAllTodos()
-
-    suspend fun searchTodos(query: String) = todoDao.searchTodos(query)
+    fun getAllTodos(query: String) = todoDao.getAllTodos(query)
 
     suspend fun insertTodo(todoEntity: TodoEntity) = todoDao.insertTodo(todoEntity)
 

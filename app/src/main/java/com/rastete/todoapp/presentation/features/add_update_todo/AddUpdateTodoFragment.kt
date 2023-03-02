@@ -81,18 +81,21 @@ class AddUpdateTodoFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.action_add_todo -> {
                         with(binding) {
-                            commonViewModel.addTodo(
-                                etTodoTitleAddUpdateTodoF.text.toString(),
-                                spnTodoPriorityAddUpdateTodoF.selectedItem.toString(),
-                                etTodoDescriptionAddUpdateTodoF.text.toString()
-                            )
+                            if (commonViewModel.addTodo(
+                                    etTodoTitleAddUpdateTodoF.text.toString(),
+                                    spnTodoPriorityAddUpdateTodoF.selectedItem.toString(),
+                                    etTodoDescriptionAddUpdateTodoF.text.toString()
+                                )
+                            ) {
+                                Toast.makeText(
+                                    context,
+                                    getString(R.string.create_todo_successful),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                findNavController().popBackStack()
+                            }
                         }
-                        Toast.makeText(
-                            context,
-                            getString(R.string.create_todo_successful),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        findNavController().popBackStack()
+
                         true
                     }
                     else -> true
@@ -111,19 +114,21 @@ class AddUpdateTodoFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.action_update_todo -> {
                         with(binding) {
-                            viewModel.updateTodo(
-                                todoId = todo?.id ?: 0,
-                                title = etTodoTitleAddUpdateTodoF.text.toString(),
-                                description = etTodoDescriptionAddUpdateTodoF.text.toString(),
-                                priority = spnTodoPriorityAddUpdateTodoF.selectedItem.toString()
-                            )
+                            if (viewModel.updateTodo(
+                                    todoId = todo?.id ?: 0,
+                                    title = etTodoTitleAddUpdateTodoF.text.toString(),
+                                    description = etTodoDescriptionAddUpdateTodoF.text.toString(),
+                                    priority = spnTodoPriorityAddUpdateTodoF.selectedItem.toString()
+                                )
+                            ) {
+                                Toast.makeText(
+                                    context,
+                                    getString(R.string.update_todo_successful),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                findNavController().popBackStack()
+                            }
                         }
-                        Toast.makeText(
-                            context,
-                            getString(R.string.update_todo_successful),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        findNavController().popBackStack()
                         true
                     }
                     R.id.action_delete_todo -> {
@@ -162,7 +167,7 @@ class AddUpdateTodoFragment : Fragment() {
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-           showMessage(it)
+            showMessage(it)
         }
 
         commonViewModel.errorMessage.observe(viewLifecycleOwner) {

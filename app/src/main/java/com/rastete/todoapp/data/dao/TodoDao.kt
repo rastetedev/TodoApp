@@ -7,9 +7,6 @@ import com.rastete.todoapp.data.entity.TodoEntity
 @Dao
 interface TodoDao {
 
-    @Query("SELECT * FROM TodoEntity")
-    fun getAllTodos(): LiveData<List<TodoEntity>>
-
     @Query(
         """
         SELECT * FROM TodoEntity 
@@ -17,7 +14,7 @@ interface TodoDao {
         description LIKE '%' || :query || '%' 
         """
     )
-    suspend fun searchTodos(query: String): List<TodoEntity>
+    fun getAllTodos(query: String): LiveData<List<TodoEntity>>
 
     @Query(
         """

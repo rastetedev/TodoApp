@@ -59,7 +59,7 @@ class TodoListFragment : Fragment(), SearchView.OnQueryTextListener {
         setupRecyclerView()
         setupEvents()
         setupListeners()
-        viewModel.getTodoList(lifecycleOwner = this)
+        viewModel.getTodoList(lifecycleOwner = this, "")
     }
 
     private fun setupMenu(menuHost: MenuHost) {
@@ -105,13 +105,13 @@ class TodoListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun setSortPriority(menuItem: MenuItem, priority: Priority) {
         if (menuItem.isChecked) {
             menuItem.isChecked = false
-            viewModel.getTodoList(lifecycleOwner = this)
+            viewModel.getTodoList(lifecycleOwner = this, "")
         } else {
             menuItem.isChecked = true
             viewModel.setSortByCriteria(priority)
         }
-        if(priority == Priority.HIGH) actionSortLowPriorityItem.isChecked = false
-        if(priority == Priority.LOW) actionSortHighPriorityItem.isChecked = false
+        if (priority == Priority.HIGH) actionSortLowPriorityItem.isChecked = false
+        if (priority == Priority.LOW) actionSortHighPriorityItem.isChecked = false
     }
 
 
@@ -177,7 +177,7 @@ class TodoListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         query?.let {
-            viewModel.searchTodos(query)
+            viewModel.getTodoList(this, query)
         }
         return true
     }
@@ -185,9 +185,9 @@ class TodoListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onQueryTextChange(newText: String?): Boolean {
         newText?.let {
             if (it.isEmpty()) {
-                viewModel.getTodoList(lifecycleOwner = this)
+                viewModel.getTodoList(lifecycleOwner = this, "")
             }
-            viewModel.searchTodos(it)
+            viewModel.getTodoList(this, it)
         }
         return true
     }

@@ -19,14 +19,12 @@ class AddUpdateTodoViewModel @Inject constructor(
     val errorMessage
         get() = _errorMessage
 
-    fun updateTodo(todoId: Int, title: String, priority: String, description: String) {
+    fun updateTodo(todoId: Int, title: String, priority: String, description: String): Boolean {
+        if (title.isEmpty() || description.isEmpty()) {
+            _errorMessage.value = "Fill out title and description"
+            return false
+        }
         viewModelScope.launch {
-
-            if (title.isEmpty() or description.isEmpty()) {
-                _errorMessage.value = "Fill out title and description"
-                return@launch
-            }
-
             todoRepository.updateTodo(
                 TodoEntity(
                     id = todoId,
@@ -36,6 +34,7 @@ class AddUpdateTodoViewModel @Inject constructor(
                 )
             )
         }
+        return true
     }
 
 }

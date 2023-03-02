@@ -26,18 +26,17 @@ class TodoListViewModel @Inject constructor(
 
     var jobSearch: Job? = null
 
-    fun getTodoList(lifecycleOwner: LifecycleOwner) {
-        todoRepository.getAllTodos().observe(lifecycleOwner) { list ->
-            noteList = list
-            _todos.value = list
-        }
-    }
-
-    fun searchTodos(query: String) {
+    fun getTodoList(lifecycleOwner: LifecycleOwner, query: String) {
         jobSearch?.cancel()
         jobSearch = viewModelScope.launch {
-            _todos.postValue(todoRepository.searchTodos(query))
+            todoRepository.getAllTodos(query).observe(lifecycleOwner) { list ->
+                noteList = list
+                _todos.postValue(noteList.filter {
+                    it.title.contains(query).or(it.description.contains(query))
+                })
+            }
         }
+
     }
 
     private fun sortByHighPriority() {

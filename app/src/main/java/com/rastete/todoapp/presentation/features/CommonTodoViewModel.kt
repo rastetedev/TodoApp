@@ -29,14 +29,13 @@ class CommonTodoViewModel @Inject constructor(
         viewModelScope.launch { todoRepository.insertTodo(todoEntity) }
     }
 
-    fun addTodo(title: String, priority: String, description: String) {
+    fun addTodo(title: String, priority: String, description: String): Boolean {
+        if (title.isEmpty() || description.isEmpty()) {
+            _errorMessage.value = "Fill out title and description"
+            return false
+        }
+
         viewModelScope.launch {
-
-            if (title.isEmpty() or description.isEmpty()) {
-                _errorMessage.value = "Fill out title and description"
-                return@launch
-            }
-
             todoRepository.insertTodo(
                 TodoEntity(
                     priority = getPriority(priority),
@@ -44,7 +43,7 @@ class CommonTodoViewModel @Inject constructor(
                     description = description
                 )
             )
-
         }
+        return true
     }
 }
